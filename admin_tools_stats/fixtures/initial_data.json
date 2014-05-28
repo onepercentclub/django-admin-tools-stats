@@ -1,36 +1,69 @@
 [
-   {
-      "pk":1,
-      "model":"admin_tools_stats.dashboardstatscriteria",
-      "fields":{
-         "criteria_fix_mapping":{
-            "is_active":"1"
-         },	 
-         "updated_date":"2011-09-01 09:06:12",
-         "criteria_name":"status",
-	 "dynamic_criteria_field_name":"",
-         "criteria_dynamic_mapping":{
-
-         },
-         "created_date":"2011-09-01 09:01:40"
-      }
-   },
-   {
-      "pk":1,
-      "model":"admin_tools_stats.dashboardstats",
-      "fields":{
-         "updated_date":"2011-09-01 09:11:56",
-         "is_visible":true,
-         "graph_key":"user_graph",
-	 "graph_title":"User graph",
-         "criteria":[
+{
+    "pk": 1, 
+    "model": "admin_tools_stats.dashboardstatscriteria", 
+    "fields": {
+        "updated_date": "2014-05-28T11:37:44.291Z",
+        "dynamic_criteria_field_name": "", 
+        "criteria_fix_mapping": {
+            "is_active": "1"
+        }, 
+        "created_date": "2014-05-28T11:37:44.291Z",
+        "criteria_name": "is_active",
+        "criteria_dynamic_mapping": {}
+    }
+},
+{
+    "pk": 2, 
+    "model": "admin_tools_stats.dashboardstatscriteria", 
+    "fields": {
+        "updated_date": "2014-05-28T11:57:32.523Z", 
+        "dynamic_criteria_field_name": "", 
+        "criteria_fix_mapping": {
+            "status__in": [
+                "pending", 
+                "paid"
+            ]
+        }, 
+        "created_date": "2014-05-28T11:57:32.523Z", 
+        "criteria_name": "status = paid or pending", 
+        "criteria_dynamic_mapping": null
+    }
+},
+{
+    "pk": 1, 
+    "model": "admin_tools_stats.dashboardstats", 
+    "fields": {
+        "updated_date": "2014-05-28T11:37:44.291Z",
+        "is_visible": true, 
+        "sum_field_name": "", 
+        "criteria": [
             1
-         ],
-         "date_field_name":"date_joined",
-         "sum_field_name":"",
-         "model_name":"User",
-         "created_date":"2011-09-01 08:56:45",
-         "model_app_name":"auth"
-      }
-   }
+        ], 
+        "graph_key": "user_graph", 
+        "date_field_name": "date_joined", 
+        "graph_title": "New members",
+        "created_date": "2014-05-28T11:37:44.291Z",
+        "model_app_name": "auth", 
+        "model_name": "User"
+    }
+},
+{
+    "pk": 2, 
+    "model": "admin_tools_stats.dashboardstats", 
+    "fields": {
+        "updated_date": "2014-05-28T11:57:34.498Z", 
+        "is_visible": true, 
+        "sum_field_name": "amount", 
+        "criteria": [
+            2
+        ], 
+        "graph_key": "donations", 
+        "date_field_name": "created", 
+        "graph_title": "Donations", 
+        "created_date": "2014-05-28T11:37:44.291Z", 
+        "model_app_name": "fund", 
+        "model_name": "Donation"
+    }
+}
 ]

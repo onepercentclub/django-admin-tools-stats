@@ -63,8 +63,7 @@ class DashboardChart(modules.DashboardModule):
                 self.select_box_value = kwargs['select_box_' + self.graph_key]
 
         if self.days is None:
-            #self.days = {'days': 30, 'weeks': 30*7, 'months': 30*12}[self.interval]
-            self.days = {'hours': 24, 'days': 7, 'weeks': 7 * 1, 'months': 30 * 2}[self.interval]
+            self.days = {'hours': 24, 'days': 7, 'weeks': 28, 'months': 365}[self.interval]
 
         self.data = self.get_registrations(self.interval, self.days,
                                            self.graph_key, self.select_box_value)
@@ -95,7 +94,7 @@ class DashboardChart(modules.DashboardModule):
 
             stats = QuerySetStats(model_name.objects.filter(**kwargs),
                                   conf_data.date_field_name, aggregate)
-            #stats = QuerySetStats(User.objects.filter(is_active=True), 'date_joined')
+
             today = now()
             if days == 24:
                 begin = today - timedelta(hours=days - 1)
@@ -127,6 +126,9 @@ class DashboardChart(modules.DashboardModule):
         if self.interval == 'days':
             self.tooltip_date_format = "%d %b %Y"
             self.extra['x_axis_format'] = "%a"
+        if self.interval == 'weeks':
+            self.tooltip_date_format = "%W"
+            self.extra['x_axis_format'] = "%W"
         if self.interval == 'hours':
             self.tooltip_date_format = "%d %b %Y %H:%S"
             self.extra['x_axis_format'] = "%H"
@@ -140,7 +142,11 @@ class DashboardChart(modules.DashboardModule):
         for data_date in self.data:
             start_time = int(time.mktime(data_date[0].timetuple()) * 1000)
             xdata.append(start_time)
-            ydata.append(data_date[1])
+            if graph_key == 'donations':
+                amount = int(data_date[1]/100)
+                ydata.append(amount)
+            else:
+                ydata.append(data_date[1])
 
         extra_serie = {"tooltip": {"y_start": "", "y_end": ""},
                        "date_format": self.tooltip_date_format}
@@ -195,8 +201,8 @@ def get_registration_charts(**kwargs):
     """ Returns 3 basic chart modules (today, last 7 days & last 3 months) """
     return [
         DashboardChart(('today').title(), interval='hours', **kwargs),
-        DashboardChart(('last week').title(), interval='days', **kwargs),
-        #DashboardChart(_('Last 2 Weeks'), interval='weeks', **kwargs),
+        DashboardChart(('last days').title(), interval='days', **kwargs),
+        DashboardChart(('last weeks'), interval='weeks', **kwargs),
         DashboardChart(('last months').title(), interval='months', **kwargs),
     ]
 
@@ -210,3 +216,4 @@ class DashboardCharts(modules.Group):
         self.title = get_title(key_value)
         kwargs.setdefault('children', get_registration_charts(**kwargs))
         super(DashboardCharts, self).__init__(*args, **kwargs)
+
